@@ -7,6 +7,7 @@ from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.metrics import mean_squared_error
 from math import sqrt
+from sklearn.model_selection import cross_val_score
 
 
 ## Different model algoritms for trainning 
@@ -71,11 +72,27 @@ lin_preds = lin_reg.predict(train_prepared)
 tree_preds = dec_tree_reg.predict(train_prepared)
 forest_preds = rand_forest_reg.predict(train_prepared)
 
-# Calculate RMSE
-lin_rmse = sqrt(mean_squared_error(train_labels, lin_preds))
-tree_rmse = sqrt(mean_squared_error(train_labels, tree_preds))
-forest_rmse = sqrt(mean_squared_error(train_labels, forest_preds))
- 
-print("Linear Regression RMSE:", lin_rmse)
-print("Decision Tree RMSE:", tree_rmse)
-print("Random Forest RMSE:", forest_rmse)
+# # Calculate RMSE
+# lin_rmse = sqrt(mean_squared_error(train_labels, lin_preds))
+# tree_rmse = sqrt(mean_squared_error(train_labels, tree_preds))
+# forest_rmse = sqrt(mean_squared_error(train_labels, forest_preds))
+
+## Using cross validation scoring to reduce overfitting 
+
+lin_rmse = -cross_val_score(lin_reg, train_prepared, train_labels, scoring="neg_root_mean_squared_error", cv=10)
+tree_rmse = -cross_val_score(dec_tree_reg, train_prepared, train_labels, scoring="neg_root_mean_squared_error", cv=10)
+forest_rmse = -cross_val_score(rand_forest_reg, train_prepared, train_labels, scoring="neg_root_mean_squared_error", cv=10)
+# print("Linear Regression RMSE:", lin_rmse)
+# print("Decision Tree RMSE:", tree_rmse)
+# print("Random Forest RMSE:", forest_rmse)
+
+
+
+print("Cross-Validation Performance (Linear Regressor):")
+print(pd.Series(lin_rmse).describe())
+
+print("\nCross-Validation Performance (Desicion tree Regressor):")
+print(pd.Series(tree_rmse).describe())
+
+print("\nCross-Validation Performance (Random Forest Regressor):")
+print(pd.Series(forest_rmse).describe())
