@@ -5,6 +5,14 @@ from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.compose import ColumnTransformer
+from sklearn.metrics import mean_squared_error
+from math import sqrt
+
+
+## Different model algoritms for trainning 
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.linear_model import LinearRegression
 
 # Load and preprocess
 housing_data = pd.read_csv("housing.csv")
@@ -46,3 +54,28 @@ full_pipeline = ColumnTransformer([
 
 # Apply transformations
 train_prepared = full_pipeline.fit_transform(train_features)
+
+### Training diffrent models on prepared data
+
+lin_reg = LinearRegression()
+lin_reg.fit(train_prepared,train_labels)
+
+dec_tree_reg = DecisionTreeRegressor()
+dec_tree_reg.fit(train_prepared,train_labels)
+
+rand_forest_reg = RandomForestRegressor()
+rand_forest_reg.fit(train_prepared,train_labels)
+
+# Predict using training data
+lin_preds = lin_reg.predict(train_prepared)
+tree_preds = dec_tree_reg.predict(train_prepared)
+forest_preds = rand_forest_reg.predict(train_prepared)
+
+# Calculate RMSE
+lin_rmse = sqrt(mean_squared_error(train_labels, lin_preds))
+tree_rmse = sqrt(mean_squared_error(train_labels, tree_preds))
+forest_rmse = sqrt(mean_squared_error(train_labels, forest_preds))
+ 
+print("Linear Regression RMSE:", lin_rmse)
+print("Decision Tree RMSE:", tree_rmse)
+print("Random Forest RMSE:", forest_rmse)
