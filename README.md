@@ -64,24 +64,25 @@ This project is focused on building machine learning models to predict **median 
 
 ---
 
+---
+
 ## 📈 Results Summary
 
-| Model                  | Mean RMSE | Std Dev |
-|------------------------|-----------|---------|
-| Linear Regression      | ~x,xxx.xx | xxx.xx  |
-| Decision Tree Regressor| ~x,xxx.xx | xxx.xx  |
-| Random Forest Regressor| ~x,xxx.xx | xxx.xx  |
+| Model                     | Mean RMSE | Std Dev | Min RMSE | Max RMSE |
+|---------------------------|-----------|---------|-----------|-----------|
+| Linear Regression         | 69,204    | 2,500   | 65,318    | 73,003    |
+| Decision Tree Regressor  | 69,195    | 2,165   | 65,611    | 72,665    |
+| Random Forest Regressor  | 49,403    | 2,010   | 46,173    | 52,873    |
 
-> 🏆 **Random Forest** achieved the best cross-validation performance.
+> ✅ **Random Forest** outperformed the other models with the lowest RMSE and lowest variance across 10-fold cross-validation.
 
 ---
 
-## 🧠 Key Learnings
+## 🧠 Key Insights
 
-- Importance of stratified sampling when data is imbalanced
-- How pipelines simplify preprocessing and keep code clean
-- Why decision trees overfit without cross-validation
-- Random Forest provides better generalization for structured data
+- **Linear Regression** and **Decision Trees** have similar RMSEs (~69,200) with moderate variance.
+- **Random Forest Regressor** achieved the best performance with a **much lower average RMSE (~49,400)** and more consistent results, indicating better generalization.
+- This highlights the power of ensemble methods like Random Forest for regression problems with complex feature interactions.
 
 ---
 
@@ -91,8 +92,4 @@ This project is focused on building machine learning models to predict **median 
 - Add feature importance and SHAP explainability
 - Visualize model predictions vs. actual values
 - Deploy the model as a REST API or interactive dashboard
-
----
-
-## 📁 File Structure
 
